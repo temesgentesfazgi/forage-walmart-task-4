@@ -20,7 +20,7 @@ all_products = pd.concat([df0["product"], df1["product"]]).dropna().unique()
 for name in all_products:
     cursor.execute("INSERT OR IGNORE INTO product (name) VALUES (?)", (name,))
 conn.commit()
-print("✅ Populated product table with unique product names.")
+print("Populated product table with unique product names.")
 
 # === Helper: get product_id from name ===
 def get_product_id(product_name):
@@ -37,7 +37,7 @@ for _, row in df0.iterrows():
             (product_id, row["product_quantity"], row["origin_warehouse"], row["destination_store"])
         )
 conn.commit()
-print("✅ Inserted data from shipping_data_0.csv")
+print("Inserted data from shipping_data_0.csv")
 
 # === STEP 2: Merge shipping_data_1 + shipping_data_2 ===
 merged_df = pd.merge(df1, df2, on="shipment_identifier", how="left")
@@ -56,10 +56,10 @@ for _, row in grouped.iterrows():
             (product_id, row["quantity"], row["origin_warehouse"], row["destination_store"])
         )
 conn.commit()
-print("✅ Inserted data from shipping_data_1.csv and shipping_data_2.csv")
+print("Inserted data from shipping_data_1.csv and shipping_data_2.csv")
 
 # === Optional: Verify output ===
-print("\n📦 Sample data from shipment table (joined with product):")
+print("\nSample data from shipment table (joined with product):")
 cursor.execute("""
     SELECT s.id, p.name, s.quantity, s.origin, s.destination
     FROM shipment s
@@ -71,7 +71,7 @@ for row in rows:
     print(row)
 
 conn.close()
-print("🔒 Database connection closed")
+print("Database connection closed")
 
 
 
